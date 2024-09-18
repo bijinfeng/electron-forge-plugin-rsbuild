@@ -1,1 +1,1 @@
-"# electron-forge-plugin-rsbuild" 
+# electron-forge-plugin-rsbuild

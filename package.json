@@ -1,0 +1,62 @@
+{
+  "name": "electron-forge-plugin-rsbuild",
+  "version": "0.0.1",
+  "description": "Rsbuild plugin for Electron Forge, lets you use Rsbuild directly in your tooling",
+  "type": "module",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch",
+    "lint": "eslint .",
+    "prepublishOnly": "nr build",
+    "typecheck": "tsc --noEmit",
+    "prepare": "simple-git-hooks",
+    "release": "bumpp"
+  },
+  "keywords": [
+    "rsbuild",
+    "electron-forge"
+  ],
+  "author": "bijinfeng",
+  "license": "MIT",
+  "dependencies": {
+    "@electron-forge/core-utils": "^7.4.0",
+    "@electron-forge/plugin-base": "^7.4.0",
+    "@electron-forge/shared-types": "^7.4.0",
+    "@electron-forge/web-multi-logger": "^7.4.0",
+    "debug": "^4.3.7",
+    "fs-extra": "^11.2.0",
+    "listr2": "^8.2.4"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.6.2",
+    "@electron/packager": "^18.3.5",
+    "@rsbuild/core": "^1.0.4",
+    "@rslib/core": "^0.0.6",
+    "@types/debug": "^4.1.12",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.5.5",
+    "bumpp": "^9.5.2",
+    "eslint": "^9.10.0",
+    "lint-staged": "^15.2.10",
+    "pnpm": "^9.10.0",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">= 16.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}
