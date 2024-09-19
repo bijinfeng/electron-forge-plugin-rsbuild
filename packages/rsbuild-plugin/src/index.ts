@@ -25,7 +25,7 @@ export default class RsbuildPlugin extends PluginBase<RsbuildPluginConfig> {
   // The root of the Electron app
   private projectDir!: string;
 
-  // Where the Vite output is generated. Usually `${projectDir}/.vite`
+  // Where the Vite output is generated. Usually `${projectDir}/.rsbuild`
   private baseDir!: string;
 
   private configGeneratorCache!: RsbuildConfigGenerator;
@@ -42,7 +42,7 @@ export default class RsbuildPlugin extends PluginBase<RsbuildPluginConfig> {
 
   public setDirectories(dir: string): void {
     this.projectDir = dir;
-    this.baseDir = path.join(dir, '.vite');
+    this.baseDir = path.join(dir, '.rsbuild');
   }
 
   private get configGenerator(): RsbuildConfigGenerator {
@@ -76,7 +76,7 @@ export default class RsbuildPlugin extends PluginBase<RsbuildPluginConfig> {
 
     if (forgeConfig.packagerConfig.ignore) {
       if (typeof forgeConfig.packagerConfig.ignore !== 'function') {
-        logger.error(`You have set packagerConfig.ignore, the Electron Forge Vite plugin normally sets this automatically. \n Your packaged app may be larger than expected if you dont ignore everything other than the '.vite' folder`)
+        logger.error(`You have set packagerConfig.ignore, the Electron Forge Vite plugin normally sets this automatically. \n Your packaged app may be larger than expected if you dont ignore everything other than the '.rsbuild' folder`)
       }
       return forgeConfig;
     }
@@ -86,7 +86,7 @@ export default class RsbuildPlugin extends PluginBase<RsbuildPluginConfig> {
 
       // Always starts with `/`
       // @see - https://github.com/electron/packager/blob/v18.1.3/src/copy-filter.ts#L89-L93
-      return !file.startsWith('/.vite');
+      return !file.startsWith('/.rsbuild');
     };
 
     return forgeConfig;
@@ -96,9 +96,9 @@ export default class RsbuildPlugin extends PluginBase<RsbuildPluginConfig> {
     const pj = await fs.readJson(path.resolve(this.projectDir, 'package.json'));
     const flatDependencies = await getFlatDependencies(this.projectDir);
 
-    if (!pj.main?.includes('.vite/')) {
+    if (!pj.main?.includes('.rsbuild/')) {
       throw new Error(`Electron Forge is configured to use the Vite plugin. The plugin expects the
-"main" entry point in "package.json" to be ".vite/*" (where the plugin outputs
+"main" entry point in "package.json" to be ".rsbuild/*" (where the plugin outputs
 the generated files). Instead, it is ${JSON.stringify(pj.main)}`);
     }
 
@@ -193,3 +193,5 @@ the generated files). Instead, it is ${JSON.stringify(pj.main)}`);
     if (options.exit) process.exit();
   };
 }
+
+export { RsbuildPlugin };

@@ -1,10 +1,8 @@
-import type { SourceConfig } from "@rsbuild/core"
-
 export interface RsbuildPluginBuildConfig {
   /**
    * Alias of `source.entry` in `config`.
    */
-  entry?: SourceConfig['entry'];
+  entry?: string;
   /**
    * Rsbuild config file path.
    */
@@ -24,7 +22,7 @@ export interface RsbuildPluginRendererConfig {
 
 export interface RsbuildPluginConfig {
   // Reserved option, may support modification in the future.
-  // @defaultValue '.vite'
+  // @defaultValue '.rsbuild'
   // baseDir?: string;
 
   /**

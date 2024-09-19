@@ -1,0 +1,49 @@
+{
+  "name": "electron-forge-plugin-rsbuild",
+  "version": "0.0.1",
+  "description": "Rsbuild plugin for Electron Forge, lets you use Rsbuild directly in your tooling",
+  "type": "module",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/esm/index.js",
+  "typings": "dist/esm/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch",
+    "prepublishOnly": "nr build",
+    "typecheck": "tsc --noEmit",
+    "release": "bumpp"
+  },
+  "keywords": [
+    "rsbuild",
+    "electron-forge"
+  ],
+  "author": "bijinfeng",
+  "license": "MIT",
+  "dependencies": {
+    "@electron-forge/core-utils": "^7.4.0",
+    "@electron-forge/plugin-base": "^7.4.0",
+    "@electron-forge/shared-types": "^7.4.0",
+    "@electron-forge/web-multi-logger": "^7.4.0",
+    "debug": "^4.3.7",
+    "fs-extra": "^11.2.0",
+    "listr2": "^8.2.4"
+  },
+  "devDependencies": {
+    "@electron/packager": "^18.3.5",
+    "@rsbuild/core": "^1.0.4",
+    "@rslib/core": "^0.0.6",
+    "@types/debug": "^4.1.12",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.5.5",
+    "bumpp": "^9.5.2"
+  },
+  "engines": {
+    "node": ">= 16.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

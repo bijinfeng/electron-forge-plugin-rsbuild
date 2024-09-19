@@ -1,5 +1,5 @@
 import debug from 'debug';
-import { loadConfig } from '@rsbuild/core';
+import { loadConfig, mergeRsbuildConfig } from '@rsbuild/core';
 
 import type { RsbuildPluginBuildConfig, RsbuildPluginConfig, RsbuildPluginRendererConfig } from "./config-types";
 import type { RsbuildConfig } from "@rsbuild/core";
@@ -15,21 +15,14 @@ export default class RsbuildConfigGenerator {
     d('Config mode:', this.mode);
   }
 
-  resolveConfig(buildConfig: RsbuildPluginBuildConfig | RsbuildPluginRendererConfig) {
-    // // @see - https://vitejs.dev/config/#conditional-config
-    // configEnv.command ??= this.isProd ? 'build' : 'serve';
-    // // `mode` affects `.env.[mode]` file load.
-    // configEnv.mode ??= this.mode;
-
-    // // Hack! Pass the forge runtime config to the vite config file in the template.
-    // Object.assign(configEnv, {
-    //   root: this.projectDir,
-    //   forgeConfig: this.pluginConfig,
-    //   forgeConfigSelf: buildConfig,
-    // });
+  async resolveConfig(buildConfig: RsbuildPluginBuildConfig | RsbuildPluginRendererConfig, configEnv: Partial<RsbuildConfig> = {}): Promise<RsbuildConfig> {
+    Object.assign(configEnv, {
+      a: 1,
+    })
 
     // `configEnv` is to be passed as an arguments when the user export a function in `vite.config.js`.
-    return loadConfig({ cwd: this.projectDir, path: buildConfig.config, envMode: this.mode });
+    const { content } = await loadConfig({ cwd: this.projectDir, path: buildConfig.config, envMode: this.mode });
+    return mergeRsbuildConfig(configEnv, content);
   }
 
   get mode(): string {
@@ -47,7 +40,7 @@ export default class RsbuildConfigGenerator {
     const configs = this.pluginConfig.build
       // Prevent load the default `vite.config.js` file.
       .filter(({ config }) => config)
-      .map<Promise<RsbuildConfig>>(async (buildConfig) => (await this.resolveConfig(buildConfig))?.content ?? {});
+      .map<Promise<RsbuildConfig>>(async (buildConfig) => (await this.resolveConfig(buildConfig)));
 
     return await Promise.all(configs);
   }
@@ -59,7 +52,7 @@ export default class RsbuildConfigGenerator {
 
     const configs = this.pluginConfig.renderer
       .filter(({ config }) => config)
-      .map<Promise<RsbuildConfig>>(async (buildConfig) => (await this.resolveConfig(buildConfig))?.content ?? {});
+      .map<Promise<RsbuildConfig>>(async (buildConfig) => (await this.resolveConfig(buildConfig)));
 
     return await Promise.all(configs);
   }
