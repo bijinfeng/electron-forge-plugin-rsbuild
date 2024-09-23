@@ -1,8 +1,16 @@
 {
   "name": "electron-forge-plugin-rsbuild",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Rsbuild plugin for Electron Forge, lets you use Rsbuild directly in your tooling",
+  "author": "bijinfeng <bijinfeng1016@gmail.com>",
+  "license": "MIT",
   "type": "module",
+  "homepage": "https://github.com/bijinfeng/electron-forge-plugin-rsbuild#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bijinfeng/electron-forge-plugin-rsbuild.git"
+  },
+  "bugs": "https://github.com/bijinfeng/electron-forge-plugin-rsbuild/issues",
   "main": "dist/cjs/index.cjs",
   "module": "dist/esm/index.js",
   "typings": "dist/esm/index.d.ts",
@@ -21,8 +29,6 @@
     "rsbuild",
     "electron-forge"
   ],
-  "author": "bijinfeng",
-  "license": "MIT",
   "dependencies": {
     "@electron-forge/core-utils": "^7.4.0",
     "@electron-forge/plugin-base": "^7.4.0",
