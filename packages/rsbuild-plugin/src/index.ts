@@ -97,7 +97,7 @@ export default class RsbuildPlugin extends PluginBase<RsbuildPluginConfig> {
     const flatDependencies = await getFlatDependencies(this.projectDir);
 
     if (!pj.main?.includes('.rsbuild/')) {
-      throw new Error(`Electron Forge is configured to use the Vite plugin. The plugin expects the
+      throw new Error(`Electron Forge is configured to use the Rsbuild plugin. The plugin expects the
 "main" entry point in "package.json" to be ".rsbuild/*" (where the plugin outputs
 the generated files). Instead, it is ${JSON.stringify(pj.main)}`);
     }

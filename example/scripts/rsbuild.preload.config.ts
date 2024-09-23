@@ -1,20 +1,8 @@
-import { defineConfig, mergeRsbuildConfig, RsbuildConfig } from '@rsbuild/core';
-import { getBuildConfig } from "./rsbuild.base.config"
+import { defineConfig } from '@rsbuild/core';
+import { externals } from "./rsbuild.base.config"
 
-export default defineConfig(() => {
-  const config: RsbuildConfig = {
-    source: {
-      entry: {
-        preload: "src/preload.ts"
-      }
-    },
-    output: {
-      target: "node",
-      filename: {
-        js: '[name].js',
-      }
-    }
-  };
-
-  return mergeRsbuildConfig(getBuildConfig(), config);
+export default defineConfig({
+  output: {
+    externals,
+  }
 });

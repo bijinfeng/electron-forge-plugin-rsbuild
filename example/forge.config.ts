@@ -22,10 +22,12 @@ const config: ForgeConfig = {
           // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
           entry: 'src/main.ts',
           config: './scripts/rsbuild.main.config.ts',
+          target: "main",
         },
         {
           entry: 'src/preload.ts',
           config: './scripts/rsbuild.preload.config.ts',
+          target: "preload",
         },
       ],
       renderer: [

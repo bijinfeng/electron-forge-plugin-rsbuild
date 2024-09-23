@@ -15,6 +15,7 @@
     "skipLibCheck": true,
   },
   "include": [
-    "src"
+    "src",
+    "forge-rsbuild-env.d.ts"
   ],
 }

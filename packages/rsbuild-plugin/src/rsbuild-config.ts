@@ -1,10 +1,16 @@
 import debug from 'debug';
 import { loadConfig, mergeRsbuildConfig } from '@rsbuild/core';
 
-import type { RsbuildPluginBuildConfig, RsbuildPluginConfig, RsbuildPluginRendererConfig } from "./config-types";
-import type { RsbuildConfig } from "@rsbuild/core";
+import type { ConfigEnv, RsbuildPluginBuildConfig, RsbuildPluginConfig, RsbuildPluginRendererConfig } from "./config-types";
+import type { RsbuildConfig, RsbuildMode } from "@rsbuild/core";
+
+import { getConfig as getMainRsbuildConfig } from './config/rsbuild.main.config';
+import { getConfig as getPreloadRsbuildConfig } from './config/rsbuild.preload.config';
+import { getConfig as getRendererRsbuildConfig } from './config/rsbuild.renderer.config';
 
 const d = debug('@electron-forge/plugin-rsbuild:RsbuildConfig');
+
+type Target = NonNullable<RsbuildPluginBuildConfig['target']> | 'renderer';
 
 export default class RsbuildConfigGenerator {
   constructor(
@@ -15,17 +21,30 @@ export default class RsbuildConfigGenerator {
     d('Config mode:', this.mode);
   }
 
-  async resolveConfig(buildConfig: RsbuildPluginBuildConfig | RsbuildPluginRendererConfig, configEnv: Partial<RsbuildConfig> = {}): Promise<RsbuildConfig> {
-    Object.assign(configEnv, {
-      a: 1,
-    })
-
-    // `configEnv` is to be passed as an arguments when the user export a function in `vite.config.js`.
+  async resolveConfig(buildConfig: RsbuildPluginBuildConfig | RsbuildPluginRendererConfig, target: Target): Promise<RsbuildConfig> {
     const { content } = await loadConfig({ cwd: this.projectDir, path: buildConfig.config, envMode: this.mode });
-    return mergeRsbuildConfig(configEnv, content);
+
+    const configEnv: ConfigEnv = {
+      command: this.isProd ? 'build' : 'serve',
+      mode: this.mode,
+      root: this.projectDir,
+      forgeConfig: this.pluginConfig,
+      forgeConfigSelf: buildConfig,
+    };
+
+    switch (target) {
+      case "main":
+        return mergeRsbuildConfig(getMainRsbuildConfig(configEnv as ConfigEnv<'build'>), content)
+      case "preload":
+        return mergeRsbuildConfig(getPreloadRsbuildConfig(configEnv as ConfigEnv<'build'>), content)
+      case "renderer":
+        return mergeRsbuildConfig(getRendererRsbuildConfig(configEnv as ConfigEnv<'renderer'>), content)
+      default:
+        throw new Error(`Unknown target: ${target}, expected 'main', 'preload' or 'renderer'`);
+    }
   }
 
-  get mode(): string {
+  get mode(): RsbuildMode {
     // Vite's `mode` can be passed in via command.
     // Since we are currently using the JavaScript API, we are opinionated defining two default values for mode here.
     // The `mode` set by the end user in `vite.config.js` has a higher priority.
@@ -40,7 +59,7 @@ export default class RsbuildConfigGenerator {
     const configs = this.pluginConfig.build
       // Prevent load the default `vite.config.js` file.
       .filter(({ config }) => config)
-      .map<Promise<RsbuildConfig>>(async (buildConfig) => (await this.resolveConfig(buildConfig)));
+      .map<Promise<RsbuildConfig>>(async (buildConfig) => (await this.resolveConfig(buildConfig, buildConfig.target ?? 'main')));
 
     return await Promise.all(configs);
   }
@@ -52,7 +71,7 @@ export default class RsbuildConfigGenerator {
 
     const configs = this.pluginConfig.renderer
       .filter(({ config }) => config)
-      .map<Promise<RsbuildConfig>>(async (buildConfig) => (await this.resolveConfig(buildConfig)));
+      .map<Promise<RsbuildConfig>>(async (buildConfig) => (await this.resolveConfig(buildConfig, "renderer")));
 
     return await Promise.all(configs);
   }
