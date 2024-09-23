@@ -1,16 +1,20 @@
 {
   "name": "electron-forge-plugin-rsbuild",
-  "version": "0.0.0",
+  "type": "module",
+  "version": "1.0.0",
   "description": "Rsbuild plugin for Electron Forge, lets you use Rsbuild directly in your tooling",
   "author": "bijinfeng <bijinfeng1016@gmail.com>",
   "license": "MIT",
-  "type": "module",
   "homepage": "https://github.com/bijinfeng/electron-forge-plugin-rsbuild#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bijinfeng/electron-forge-plugin-rsbuild.git"
   },
   "bugs": "https://github.com/bijinfeng/electron-forge-plugin-rsbuild/issues",
+  "keywords": [
+    "rsbuild",
+    "electron-forge"
+  ],
   "main": "dist/cjs/index.cjs",
   "module": "dist/esm/index.js",
   "typings": "dist/esm/index.d.ts",
@@ -18,16 +22,15 @@
     "dist",
     "forge-rsbuild-env.d.ts"
   ],
+  "engines": {
+    "node": ">= 16.4.0"
+  },
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",
     "typecheck": "tsc --noEmit",
     "release": "bumpp"
   },
-  "keywords": [
-    "rsbuild",
-    "electron-forge"
-  ],
   "dependencies": {
     "@electron-forge/core-utils": "^7.4.0",
     "@electron-forge/plugin-base": "^7.4.0",
@@ -45,9 +48,6 @@
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.5.5",
     "bumpp": "^9.5.2"
-  },
-  "engines": {
-    "node": ">= 16.4.0"
   },
   "publishConfig": {
     "access": "public"
