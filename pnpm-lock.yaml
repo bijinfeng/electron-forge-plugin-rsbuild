@@ -32,9 +32,6 @@ importers:
 
   example:
     dependencies:
-      '@rsbuild/plugin-react':
-        specifier: ^1.0.2
-        version: 1.0.2(@rsbuild/core@1.0.4)
       electron-squirrel-startup:
         specifier: ^1.0.1
         version: 1.0.1
@@ -69,6 +66,9 @@ importers:
       '@rsbuild/core':
         specifier: ^1.0.4
         version: 1.0.4
+      '@rsbuild/plugin-react':
+        specifier: ^1.0.2
+        version: 1.0.2(@rsbuild/core@1.0.4)
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.0.0
         version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.5.5))(eslint@8.57.1)(typescript@4.5.5)

@@ -22,6 +22,7 @@
     "@electron-forge/shared-types": "^7.4.0",
     "@electron/fuses": "^1.8.0",
     "@rsbuild/core": "^1.0.4",
+    "@rsbuild/plugin-react": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "electron": "^32.1.1",
@@ -38,7 +39,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@rsbuild/plugin-react": "^1.0.2",
     "electron-squirrel-startup": "^1.0.1"
   }
 }

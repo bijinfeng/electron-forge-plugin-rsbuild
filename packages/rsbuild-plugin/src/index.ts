@@ -7,7 +7,6 @@ import fs from 'fs-extra';
 import { PRESET_TIMER } from 'listr2';
 import { createRsbuild } from '@rsbuild/core';
 
-import { getFlatDependencies } from './utils/package';
 import RsbuildConfigGenerator from "./rsbuild-config";
 
 import type { RsbuildPluginConfig } from './config-types';
@@ -56,7 +55,7 @@ export default class RsbuildPlugin extends PluginBase<RsbuildPluginConfig> {
           this.isProd = true;
           await fs.remove(this.baseDir);
 
-          await Promise.all([this.build(), this.buildRenderer()]);
+          await Promise.all([this.build(false), this.buildRenderer()]);
         }, 'Building rsbuild bundles'),
       ],
       postStart: async (_config, child) => {
@@ -94,7 +93,6 @@ export default class RsbuildPlugin extends PluginBase<RsbuildPluginConfig> {
 
   packageAfterCopy = async (_forgeConfig: ResolvedForgeConfig, buildPath: string): Promise<void> => {
     const pj = await fs.readJson(path.resolve(this.projectDir, 'package.json'));
-    const flatDependencies = await getFlatDependencies(this.projectDir);
 
     if (!pj.main?.includes('.rsbuild/')) {
       throw new Error(`Electron Forge is configured to use the Rsbuild plugin. The plugin expects the
@@ -109,11 +107,6 @@ the generated files). Instead, it is ${JSON.stringify(pj.main)}`);
     await fs.writeJson(path.resolve(buildPath, 'package.json'), pj, {
       spaces: 2,
     });
-
-    // Copy the dependencies in package.json
-    for (const dep of flatDependencies) {
-      await fs.copy(dep.src, path.resolve(buildPath, dep.dest));
-    }
   };
 
   startLogic = async (): Promise<StartResult> => {
@@ -138,7 +131,7 @@ the generated files). Instead, it is ${JSON.stringify(pj.main)}`);
         {
           title: 'Compiling main process code',
           task: async () => {
-            await this.build();
+            await this.build(true);
           },
           rendererOptions: {
             timer: { ...PRESET_TIMER },
@@ -150,12 +143,12 @@ the generated files). Instead, it is ${JSON.stringify(pj.main)}`);
   };
 
   // Main process, Preload scripts and Worker process, etc.
-  build = async (): Promise<void> => {
+  build = async (watch = true): Promise<void> => {
     const configs = await this.configGenerator.getBuildConfig();
 
     await Promise.all(configs.map(async userConfig => {
       const rsbuild = await createRsbuild({ rsbuildConfig: userConfig });
-      const result = await rsbuild.build({ watch: true });
+      const result = await rsbuild.build({ watch });
       this.servers.push(result);
     }));
   };
@@ -173,7 +166,7 @@ the generated files). Instead, it is ${JSON.stringify(pj.main)}`);
   launchRendererDevServers = async (): Promise<void> => {
     for (const userConfig of await this.configGenerator.getRendererConfig()) {
       const rsbuild = await createRsbuild({ rsbuildConfig: userConfig });
-      const { server } = await rsbuild.startDevServer();
+      const { server } = await rsbuild.startDevServer({ getPortSilently: true });
       this.servers.push(server);
     }
   };

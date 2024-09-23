@@ -19,6 +19,7 @@ export function getConfig(forgeEnv: ConfigEnv<"renderer">): RsbuildConfig {
       }
     },
     output: {
+      assetPrefix: "./",
       distPath: {
         root: `.rsbuild/renderer/${name}`,
       }

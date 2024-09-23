@@ -21,19 +21,19 @@ const config: ForgeConfig = {
         {
           // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
           entry: 'src/main.ts',
-          config: './scripts/rsbuild.main.config.ts',
+          config: './rsbuild.main.config.ts',
           target: "main",
         },
         {
           entry: 'src/preload.ts',
-          config: './scripts/rsbuild.preload.config.ts',
+          config: './rsbuild.preload.config.ts',
           target: "preload",
         },
       ],
       renderer: [
         {
           name: 'main_window',
-          config: './scripts/rsbuild.renderer.config.ts',
+          config: './rsbuild.renderer.config.ts',
         },
       ],
     }),
