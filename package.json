@@ -1,10 +1,14 @@
 {
   "scripts": {
     "lint": "eslint .",
-    "prepare": "simple-git-hooks"
+    "prepare": "simple-git-hooks",
+    "build": "pnpm run --filter=electron-forge-plugin-rsbuild build",
+    "changeset": "changeset",
+    "version": "changeset version"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.6.2",
+    "@changesets/cli": "^2.27.8",
     "@types/node": "^22.5.5",
     "eslint": "^9.10.0",
     "lint-staged": "^15.2.10",

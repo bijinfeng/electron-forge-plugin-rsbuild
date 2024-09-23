@@ -21,7 +21,6 @@
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",
-    "prepublishOnly": "nr build",
     "typecheck": "tsc --noEmit",
     "release": "bumpp"
   },
