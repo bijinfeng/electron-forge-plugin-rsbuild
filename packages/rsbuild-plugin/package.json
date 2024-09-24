@@ -1,7 +1,7 @@
 {
   "name": "electron-forge-plugin-rsbuild",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rsbuild plugin for Electron Forge, lets you use Rsbuild directly in your tooling",
   "author": "bijinfeng <bijinfeng1016@gmail.com>",
   "license": "MIT",
