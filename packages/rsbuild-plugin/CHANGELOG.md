@@ -1,5 +1,11 @@
 # electron-forge-plugin-rsbuild
 
+## 1.0.2
+
+### Patch Changes
+
+- 4c5356e: fix: Fix the issue of the main process build success callback being triggered too early
+
 ## 1.0.1
 
 ### Patch Changes
