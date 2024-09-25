@@ -2,7 +2,9 @@
 	"scripts": {
 		"bump": "taze -l",
 		"prepare": "simple-git-hooks",
-		"build": "pnpm run --filter=electron-forge-plugin-rsbuild build",
+		"build": "pnpm run build:plugin && pnpm run build:template",
+		"build:plugin": "pnpm run --filter=electron-forge-plugin-rsbuild build",
+		"build:template": "pnpm run --filter=electron-forge-template-rsbuild build",
 		"changeset": "changeset",
 		"version": "changeset version"
 	},
