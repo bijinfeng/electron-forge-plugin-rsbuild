@@ -1,31 +1,33 @@
 {
-  "scripts": {
-    "lint": "eslint .",
-    "prepare": "simple-git-hooks",
-    "build": "pnpm run --filter=electron-forge-plugin-rsbuild build",
-    "changeset": "changeset",
-    "version": "changeset version"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^3.6.2",
-    "@changesets/cli": "^2.27.8",
-    "@types/node": "^22.5.5",
-    "eslint": "^9.10.0",
-    "lint-staged": "^15.2.10",
-    "pnpm": "^9.10.0",
-    "simple-git-hooks": "^2.11.1",
-    "typescript": "^5.6.2"
-  },
-  "engines": {
-    "node": ">= 16.4.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
-  }
+	"scripts": {
+		"bump": "taze -l",
+		"prepare": "simple-git-hooks",
+		"build": "pnpm run --filter=electron-forge-plugin-rsbuild build",
+		"changeset": "changeset",
+		"version": "changeset version"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.2",
+		"@changesets/cli": "^2.27.8",
+		"@types/node": "^22.5.5",
+		"lint-staged": "^15.2.10",
+		"pnpm": "^9.10.0",
+		"simple-git-hooks": "^2.11.1",
+		"taze": "^0.16.9",
+		"typescript": "^5.6.2"
+	},
+	"engines": {
+		"node": ">= 16.4.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"simple-git-hooks": {
+		"pre-commit": "pnpm lint-staged"
+	},
+	"lint-staged": {
+		"*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+			"biome check --write --no-errors-on-unmatched"
+		]
+	}
 }

@@ -12,5 +12,6 @@
 		"skipDefaultLibCheck": true,
 		"skipLibCheck": true
 	},
-	"include": ["src", "forge-rsbuild-env.d.ts"]
+	"include": ["src"],
+	"exclude": ["tmpl"]
 }

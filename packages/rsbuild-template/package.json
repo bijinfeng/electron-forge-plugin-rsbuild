@@ -1,13 +1,27 @@
 {
-  "name": "rsbuild-template",
-  "version": "1.0.0",
-  "private": "true",
-  "description": "",
-  "author": "bijinfeng",
-  "license": "ISC",
-  "keywords": [],
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
+	"name": "electron-forge-template-rsbuild",
+	"version": "1.0.0",
+	"description": "",
+	"author": "bijinfeng <bijinfeng1016@gmail.com>",
+	"license": "MIT",
+	"main": "dist/cjs/index.cjs",
+	"module": "dist/esm/index.js",
+	"typings": "dist/esm/index.d.ts",
+	"scripts": {
+		"build": "rslib build",
+		"dev": "rslib build --watch"
+	},
+	"dependencies": {
+		"@electron-forge/shared-types": "^7.4.0",
+		"@electron-forge/template-base": "^7.5.0",
+		"fs-extra": "^11.2.0"
+	},
+	"devDependencies": {
+		"@rslib/core": "^0.0.6",
+		"@types/fs-extra": "^11.0.4"
+	},
+	"files": ["dist", "tmpl"],
+	"publishConfig": {
+		"access": "public"
+	}
 }
