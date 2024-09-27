@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.mjs",
-	"typings": "dist/esm/index.d.ts",
+	"typings": "dist/esm/index.d.mts",
 	"scripts": {
 		"build": "rslib build",
 		"dev": "rslib build --watch"
